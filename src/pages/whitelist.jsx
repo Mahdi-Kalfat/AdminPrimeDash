@@ -1,186 +1,76 @@
 import React, { useState } from "react";
-import { FaChevronLeft, FaChevronRight, FaTimes } from "react-icons/fa";
-import { FaEye } from "react-icons/fa";
+import Sidebar from "../Components/Sidebar";
+import Header from "../Components/header";
+import Footer from "../Components/footer";
+import { FaChevronLeft, FaChevronRight, FaEye, FaTimes } from "react-icons/fa";
 
-function Whitelist() {
-  const [activeTab, setActiveTab] = useState("Accepted"); // Manage active tab
-  const [currentPage, setCurrentPage] = useState(1); // State for pagination
-  const [selectedEntry, setSelectedEntry] = useState(null); // State to store selected entry for modal
-  const [isModalOpen, setIsModalOpen] = useState(false); // State to control modal visibility
+const acceptedData = [
+  // Sample data for accepted tab
+  {
+    number: 1,
+    discordname: "User#1234",
+    age: 25,
+    realname: "John Doe",
+    status: "Accepted",
+    steamLink: "https://steamcommunity.com/id/user",
+    question1: "Answer 1",
+    question2: "Answer 2",
+    question3: "Answer 3",
+    question4: "Answer 4",
+  },
+  // Add more data as needed
+];
 
-  const rowsPerPage = 10; // Number of rows per page
+const pendingData = [
+  // Sample data for pending tab
+  {
+    number: 2,
+    discordname: "User#5678",
+    age: 22,
+    realname: "Jane Doe",
+    status: "Pending",
+    steamLink: "https://steamcommunity.com/id/user2",
+    question1: "Pending Answer 1",
+    question2: "Pending Answer 2",
+    question3: "Pending Answer 3",
+    question4: "Pending Answer 4",
+  },
+  // Add more data as needed
+];
 
-  // Example data for each table with additional fields
-  const acceptedData = [
-    {
-      number: 1,
-      discordname: "John Doe",
-      age: 22,
-      realname: "Mahdi",
-      status: "Accepted",
-      steamLink: "https://steamcommunity.com/id/johndoe/",
-      question1: "Answer 1",
-      question2: "Answer 2",
-      question3: "Answer 3",
-      question4: "Answer 4",
-    },
-    {
-      number: 2,
-      discordname: "Jane Smith",
-      age: 25,
-      realname: "Jane",
-      status: "Accepted",
-      steamLink: "https://steamcommunity.com/id/janesmith/",
-      question1: "Answer A",
-      question2: "Answer B",
-      question3: "Answer C",
-      question4: "Answer D",
-    },
-    {
-      number: 1,
-      discordname: "John Doe",
-      age: 22,
-      realname: "Mahdi",
-      status: "Accepted",
-      steamLink: "https://steamcommunity.com/id/johndoe/",
-      question1: "Answer 1",
-      question2: "Answer 2",
-      question3: "Answer 3",
-      question4: "Answer 4",
-    },
-    {
-      number: 1,
-      discordname: "John Doe",
-      age: 22,
-      realname: "Mahdi",
-      status: "Accepted",
-      steamLink: "https://steamcommunity.com/id/johndoe/",
-      question1: "Answer 1",
-      question2: "Answer 2",
-      question3: "Answer 3",
-      question4: "Answer 4",
-    },
-    {
-      number: 1,
-      discordname: "John Doe",
-      age: 22,
-      realname: "Mahdi",
-      status: "Accepted",
-      steamLink: "https://steamcommunity.com/id/johndoe/",
-      question1: "Answer 1",
-      question2: "Answer 2",
-      question3: "Answer 3",
-      question4: "Answer 4",
-    },
-    {
-      number: 1,
-      discordname: "John Doe",
-      age: 22,
-      realname: "Mahdi",
-      status: "Accepted",
-      steamLink: "https://steamcommunity.com/id/johndoe/",
-      question1: "Answer 1",
-      question2: "Answer 2",
-      question3: "Answer 3",
-      question4: "Answer 4",
-    },
-    {
-      number: 1,
-      discordname: "John Doe",
-      age: 22,
-      realname: "Mahdi",
-      status: "Accepted",
-      steamLink: "https://steamcommunity.com/id/johndoe/",
-      question1: "Answer 1",
-      question2: "Answer 2",
-      question3: "Answer 3",
-      question4: "Answer 4",
-    },
-    {
-      number: 1,
-      discordname: "John Doe",
-      age: 22,
-      realname: "Mahdi",
-      status: "Accepted",
-      steamLink: "https://steamcommunity.com/id/johndoe/",
-      question1: "Answer 1",
-      question2: "Answer 2",
-      question3: "Answer 3",
-      question4: "Answer 4",
-    },
-    {
-      number: 1,
-      discordname: "John Doe",
-      age: 22,
-      realname: "Mahdi",
-      status: "Accepted",
-      steamLink: "https://steamcommunity.com/id/johndoe/",
-      question1: "Answer 1",
-      question2: "Answer 2",
-      question3: "Answer 3",
-      question4: "Answer 4",
-    },
-    {
-      number: 1,
-      discordname: "John Doe",
-      age: 22,
-      realname: "Mahdi",
-      status: "Accepted",
-      steamLink: "https://steamcommunity.com/id/johndoe/",
-      question1: "Answer 1",
-      question2: "Answer 2",
-      question3: "Answer 3",
-      question4: "Answer 4",
-    },
-    {
-      number: 1,
-      discordname: "John Doe",
-      age: 22,
-      realname: "Mahdi",
-      status: "Accepted",
-      steamLink: "https://steamcommunity.com/id/johndoe/",
-      question1: "Answer 1",
-      question2: "Answer 2",
-      question3: "Answer 3",
-      question4: "Answer 4",
-    },
-    // Add more entries as needed
-  ];
+const rejectedData = [
+  // Sample data for rejected tab
+  {
+    number: 3,
+    discordname: "User#91011",
+    age: 30,
+    realname: "Sam Smith",
+    status: "Rejected",
+    steamLink: "https://steamcommunity.com/id/user3",
+    question1: "Rejected Answer 1",
+    question2: "Rejected Answer 2",
+    question3: "Rejected Answer 3",
+    question4: "Rejected Answer 4",
+  },
+  // Add more data as needed
+];
 
-  const pendingData = [
-    {
-      number: 1,
-      discordname: "John Doe",
-      age: 22,
-      realname: "Mahdi",
-      status: "Pending",
-      steamLink: "https://steamcommunity.com/id/johndoe/",
-      question1: "Answer 1",
-      question2: "Answer 2",
-      question3: "Answer 3",
-      question4: "Answer 4",
-    },
-    // Add pending data entries if needed
-  ];
+function Dashboard() {
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages] = useState(3); // Define total pages
+  const [activeTab, setActiveTab] = useState("Accepted"); // Manage tabs
+  const [isModalOpen, setIsModalOpen] = useState(false); // Manage modal
+  const [selectedEntry, setSelectedEntry] = useState(null); // Track selected entry
 
-  const rejectedData = [
-    // Add rejected data entries if needed
-  ];
-
-  // Paginate the data based on the active page and rows per page
+  // Helper function to paginate data
   const paginateData = (data) => {
-    const startIndex = (currentPage - 1) * rowsPerPage;
-    const endIndex = startIndex + rowsPerPage;
-    return data.slice(startIndex, endIndex);
+    const itemsPerPage = 5;
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    return data.slice(startIndex, startIndex + itemsPerPage);
   };
 
-  // Calculate total pages based on data length
-  const getTotalPages = (data) => Math.ceil(data.length / rowsPerPage);
-
-  // Render pagination controls
+  // Pagination component
   const renderPagination = (data) => {
-    const totalPages = getTotalPages(data);
-
     return (
       <div className="flex items-center justify-center mt-4">
         <button
@@ -265,16 +155,14 @@ function Whitelist() {
                   </span>
                 </td>
                 <td className="py-3 px-6">
-                  <td className="py-3 px-6">
-                    <FaEye
-                      className="text-blue-500 cursor-pointer hover:underline mr-2"
-                      onClick={() => {
-                        setSelectedEntry(item);
-                        setIsModalOpen(true);
-                      }}
-                      size={20} // Adjust the size as needed
-                    />
-                  </td>
+                  <FaEye
+                    className="text-blue-500 cursor-pointer hover:underline mr-2"
+                    onClick={() => {
+                      setSelectedEntry(item);
+                      setIsModalOpen(true);
+                    }}
+                    size={20}
+                  />
                 </td>
               </tr>
             ))}
@@ -336,7 +224,6 @@ function Whitelist() {
                 <button
                   className="bg-green-500 text-white px-4 py-2 rounded shadow-lg hover:bg-green-600 transition duration-200 ease-in-out mr-2"
                   onClick={() => {
-                    // Handle accept logic here
                     console.log("Accepted:", selectedEntry);
                     setIsModalOpen(false);
                   }}
@@ -346,7 +233,6 @@ function Whitelist() {
                 <button
                   className="bg-red-500 text-white px-4 py-2 rounded shadow-lg hover:bg-red-600 transition duration-200 ease-in-out"
                   onClick={() => {
-                    // Handle reject logic here
                     console.log("Rejected:", selectedEntry);
                     setIsModalOpen(false);
                   }}
@@ -361,47 +247,55 @@ function Whitelist() {
     );
   };
 
-  // Render the component
   return (
-    <div className="p-6">
-      <div className="flex space-x-4 mb-4">
-        <button
-          className={`flex-1 py-2 rounded ${
-            activeTab === "Accepted"
-              ? "bg-green-500 text-white"
-              : "bg-gray-300 text-gray-700 hover:bg-gray-400"
-          }`}
-          onClick={() => setActiveTab("Accepted")}
-        >
-          Accepted
-        </button>
-        <button
-          className={`flex-1 py-2 rounded ${
-            activeTab === "Pending"
-              ? "bg-yellow-500 text-white"
-              : "bg-gray-300 text-gray-700 hover:bg-gray-400"
-          }`}
-          onClick={() => setActiveTab("Pending")}
-        >
-          Pending
-        </button>
-        <button
-          className={`flex-1 py-2 rounded ${
-            activeTab === "Rejected"
-              ? "bg-red-500 text-white"
-              : "bg-gray-300 text-gray-700 hover:bg-gray-400"
-          }`}
-          onClick={() => setActiveTab("Rejected")}
-        >
-          Rejected
-        </button>
-      </div>
+    <div className="flex h-full">
+      <Sidebar />
+      <div className="flex flex-col w-full">
+        <Header />
+        <main className="flex-1 bg-gray-100 p-4">
+          {/* Tab buttons */}
+          <div className="flex space-x-4 mb-4">
+            <button
+              className={`flex-1 py-2 rounded ${
+                activeTab === "Accepted"
+                  ? "bg-green-500 text-white"
+                  : "bg-gray-300 text-gray-700 hover:bg-gray-400"
+              }`}
+              onClick={() => setActiveTab("Accepted")}
+            >
+              Accepted
+            </button>
+            <button
+              className={`flex-1 py-2 rounded ${
+                activeTab === "Pending"
+                  ? "bg-yellow-500 text-white"
+                  : "bg-gray-300 text-gray-700 hover:bg-gray-400"
+              }`}
+              onClick={() => setActiveTab("Pending")}
+            >
+              Pending
+            </button>
+            <button
+              className={`flex-1 py-2 rounded ${
+                activeTab === "Rejected"
+                  ? "bg-red-500 text-white"
+                  : "bg-gray-300 text-gray-700 hover:bg-gray-400"
+              }`}
+              onClick={() => setActiveTab("Rejected")}
+            >
+              Rejected
+            </button>
+          </div>
 
-      {activeTab === "Accepted" && renderTable(acceptedData)}
-      {activeTab === "Pending" && renderTable(pendingData)}
-      {activeTab === "Rejected" && renderTable(rejectedData)}
+          {/* Table based on the active tab */}
+          {activeTab === "Accepted" && renderTable(acceptedData)}
+          {activeTab === "Pending" && renderTable(pendingData)}
+          {activeTab === "Rejected" && renderTable(rejectedData)}
+        </main>
+        <Footer />
+      </div>
     </div>
   );
 }
 
-export default Whitelist;
+export default Dashboard;
